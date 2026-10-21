@@ -20,6 +20,32 @@ python analysis.py
 
 Results: written to `results.json` (and `figures/f1_comparison.png`).
 
+## Results (latest run)
+
+On the public OpenML PC4 defect proxy dataset, a standard random forest classifier reached 40% F1 versus 61% for a class-balanced LightGBM with a CV-tuned threshold, though ROC-AUC barely moved (0.932 vs 0.936) on only 45 test positives.
+
+| Metric | Value |
+|---|---|
+| baseline_score | 0.4039 |
+| improved_score | 0.6139 |
+| improvement | 0.2099 |
+| baseline_score_std | 0.01018 |
+| improved_score_std | 0 |
+| baseline_f1 | 0.4039 |
+| improved_f1 | 0.6139 |
+| baseline_roc_auc | 0.9323 |
+| improved_roc_auc | 0.9358 |
+| improvement_roc_auc | 0.003484 |
+| baseline_brier | 0.0685 |
+| improved_brier | 0.08908 |
+| improvement_brier | -0.02059 |
+| decision_threshold | 0.71 |
+| test_positives | 45 |
+
+Run on 2026-10-21. Full output: [results.json](results.json) · [run.log](run.log)
+
+Notes: Proxy dataset: PC4 static code metrics predict defect-prone modules, not WebRTC test-run failures. Only 45 positives in the test split, so F1 is high-variance; a single split is used. Model seeds vary only model randomness, not the split. Selected LightGBM params: {'learning_rate': 0.03, 'min_child_samples': 5, 'n_estimators': 100, 'num_leaves': 7}; threshold 0.71. The split uses seed 42 (house rule) rather than the seed 0 in the plan. fetch_openml has no timeout argument, so retries wrap the call instead.
+
 ## Reference
 
 This project is motivated by the following paper:
