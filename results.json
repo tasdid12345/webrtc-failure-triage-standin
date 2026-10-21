@@ -1,0 +1,35 @@
+{
+  "question": "Can a class-balanced LightGBM model with a cross-validated decision threshold flag failure-prone units better than a standard random forest?",
+  "method": "Stand-in on OpenML PC4 defect data. Single stratified 75/25 split (seed 42). Baseline: RandomForest (300 trees, threshold 0.5). Improved: balanced LightGBM with 5-fold CV hyperparameter search (ROC-AUC) and CV-F1 threshold, both on training data only. Model seeds 42-44; mean and std reported.",
+  "dataset": {
+    "name": "OpenML PC4 (pc4, data id 1050)",
+    "source_url": "https://www.openml.org/d/1050",
+    "n_rows": 1458,
+    "n_train": 1093,
+    "n_test": 365,
+    "same_as_paper": false,
+    "baseline_is_papers_method": false
+  },
+  "metric_name": "F1 for defective class on test split",
+  "higher_is_better": true,
+  "baseline": "Standard scikit-learn RandomForestClassifier (300 trees, default settings, 0.5 decision threshold)",
+  "improved": "LightGBM with class_weight='balanced'; hyperparameters chosen by 5-fold CV ROC-AUC on the training split; decision threshold chosen by out-of-fold F1 on the training split",
+  "metrics": {
+    "baseline_score": 0.4039499472335293,
+    "improved_score": 0.6138613861386139,
+    "improvement": 0.20991143890508457,
+    "baseline_score_std": 0.010176915632700591,
+    "improved_score_std": 0.0,
+    "baseline_f1": 0.4039499472335293,
+    "improved_f1": 0.6138613861386139,
+    "baseline_roc_auc": 0.9323148148148149,
+    "improved_roc_auc": 0.9357986111111111,
+    "improvement_roc_auc": 0.0034837962962961377,
+    "baseline_brier": 0.0684954236428209,
+    "improved_brier": 0.08908348043186869,
+    "improvement_brier": -0.020588056789047793,
+    "decision_threshold": 0.7100000000000002,
+    "test_positives": 45
+  },
+  "notes": "Proxy dataset: PC4 static code metrics predict defect-prone modules, not WebRTC test-run failures. Only 45 positives in the test split, so F1 is high-variance; a single split is used. Model seeds vary only model randomness, not the split. Selected LightGBM params: {'learning_rate': 0.03, 'min_child_samples': 5, 'n_estimators': 100, 'num_leaves': 7}; threshold 0.71. The split uses seed 42 (house rule) rather than the seed 0 in the plan. fetch_openml has no timeout argument, so retries wrap the call instead."
+}
